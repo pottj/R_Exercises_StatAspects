@@ -1,0 +1,78 @@
+---
+title: "R-Blatt 2: Deskriptive Statistik - Aufgaben"
+subtitle: "Statistical Aspects (09-202-2413)"
+author: "Janne Pott"
+date: "Last compiled on `r format(Sys.time(), '%d %B, %Y')`"
+output: pdf_document
+---
+
+# Session Setup
+
+```{r setup, echo=T, warning=FALSE, message=FALSE}
+rm(list = ls())
+time0<-Sys.time()
+
+source("../sourceFile.R")
+setwd(pathToExercise)
+
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Datensatz 1 (ergometer)
+
+Bitte laden Sie den Datensatz *ergometer.RData* mittels *load()*. 
+
+```{r B2A1_1, echo=F}
+loaded1<-load(paste0(pathToData,"ergometer.RData"))
+var<-colnames(myDat)
+dummy1<-c("Durchlaufende ID-Nummer","Geschlecht","Geburtstag","Erhebungsdatum",
+         "Größe","Gewicht","Leistung im Ergometer","Milchsäure im Blut")
+dummy2<-c(NA,"1 = Mann; 2 = Frau","Monat/Tag/Jahr","Monat/Tag/Jahr",
+          "in m","in kg","in Watt/kg","in mg/dl")
+dumTab<-data.frame(var,dummy1,dummy2)
+knitr::kable(dumTab, position = "!b",
+             caption = "Parameterbeschreibung zum Datensatz ergometer",
+             col.names = c("Variable","Beschreibung","Codierung / Einheit"))
+```
+
+
+a) Berechnen Sie den *BMI* und das *Alter* der Probanden und bestimmen Sie deskriptive Statistiken für die Größen *ergometer*, *lactate*, *BMI* und *Alter* für Männer und Frauen getrennt. Hinweis: wie man das Alter bestimmt wird auch im Beispiel zu Blatt 2 gezeigt.  
+b) Erstellen Sie QQ-Plots und Histrogramme und testen Sie auf Normalverteilung. 
+c) Vergleichen Sie *ergometer* zwischen den Geschlechtern unter Verwendung eines geeigneten Tests.
+d) Korrelieren Sie *ergometer* mit *lactate*, *BMI* und *Alter*. Was fällt hier auf?
+
+# Datensatz 2 (haendigkeit)
+
+Bitte laden Sie den Datensatz *haendigkeit.RData* mittels *load()*. 
+
+```{r B2A2_1, echo=F}
+loaded2<-load(paste0(pathToData,"haendigkeit.RData"))
+var<-colnames(myDat)
+dummy1<-c("Durchlaufende ID-Nummer","Geschlecht","Länge der Schreibhand",
+          "Länge der Nichtschreibhand","Schreibhand",
+          "Präferenz für Armverschränkung","Präferenz für Klatschen","Größe")
+dummy2<-c(NA,"1 = Mann; 2 = Frau","in cm","in cm",
+          "0 = rechts; 1 = links",
+          "0 = rechts auf links; 0.5 = keine; 1 = links auf rechts",
+          "0 = rechts; 0.5 = keine; 1 = links",
+          "in m")
+dumTab<-data.frame(var,dummy1,dummy2)
+knitr::kable(dumTab, position = "!b",
+             caption = "Parameterbeschreibung zum Datensatz haendigkeit",
+             col.names = c("Variable","Beschreibung","Codierung / Einheit"))
+```
+
+a) Berechnen Sie geeignete deskriptive Statistiken für die Variablen *sex*, *WrHnd*, *NWHnd*, *WHnd*, *Fold*, *Clap*, und *height*!
+b) Testen Sie, ob es Unterschiede in den Handlängen zwischen Männern und Frauen gibt. Konstruieren Sie Boxplots.
+c) Testen Sie für Männer und Frauen getrennt, ob es Längenunterschiede zwischen Schreib- und Nichtschreibhand gibt.
+d) Analysieren Sie die Beziehung zwischen Schreibhand, Armverschränkung und Klatschen, dabei die unentschiedenen Fälle filtern. 
+e) Testen Sie für Männer und Frauen getrennt, ob es Beziehungen zwischen Größe, Länge der Hand und Unterschied zwischen Schreib-/Nichtschreibhand gibt.
+
+# Session Information
+
+```{r sessionInfo, echo=T, eval=F}
+sessionInfo()
+message("\nTOTAL TIME : " ,round(difftime(Sys.time(),time0,units = "mins"),3)," minutes")
+
+```
+
