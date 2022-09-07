@@ -1,0 +1,4 @@
+id	code	mul
+1	abd	2.0
+2	apq	0.5
+3	abc	1.7

@@ -1,0 +1,6 @@
+id	code	valA	valB
+1	abc	0.1	11
+1	abc	0.6	7
+1	abd	1.5	5
+2	apq	0.9	10
+2	apq 0.3	13
