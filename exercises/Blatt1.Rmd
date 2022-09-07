@@ -1,0 +1,85 @@
+---
+title: "R-Blatt 1: Grundlagen - Aufgaben"
+subtitle: "Statistical Aspects (09-202-2413)"
+author: "Janne Pott"
+date: "Last compiled on `r format(Sys.time(), '%d %B, %Y')`"
+output: pdf_document
+---
+
+# Session Setup
+
+```{r setup, echo=T, warning=FALSE, message=FALSE}
+rm(list = ls())
+time0<-Sys.time()
+
+source("../sourceFile.R")
+setwd(pathToExercise)
+
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# R als Taschenrechner
+
+Berechnen Sie folgende Terme: 
+
+a) $|3^5 - 2^{10}|$
+b) $sin(\frac34 \pi)$
+c) $\frac{16!}{5!11!}$
+d) $\sqrt{37-8} + \sqrt{11}$
+e) $e^{-2.7}/0.1$
+f) $2.3^8 + \ln(7.4) - \tan(0.3\pi)$
+g) $\log_{10}(27)$
+h) $\ln(\pi)$
+i) $\ln(-1)$
+
+# Variablen und Folgen
+
+Erzeugen Sie folgende $a_1, ..., a_{10}$:
+
+a) $a_n = 3^n$
+b) $a_n = e^{-n}$
+c) $a_n = (1 + \frac1n)^n$
+d) $a_n = \sin(n \frac{\pi}{10})$
+
+# Funktionen
+
+a) Definieren Sie die Funktion $h(x)=\sin(\sqrt{x})$ und werten Sie sie an den Stellen 0, 0.1, 0.2, ..., 0.9, und 1 aus. 
+b) Definieren Sie die Funktionen $g_1(a,b,c) = \frac{a*b}{a*b+(1-c)*(1-a)}$ und $g_2(a,b,c) = \frac{c*(1-a)}{c*(1-a)+(1-b)*a}$ und werten Sie sie für $a \in [0,1]$, $b=0.7$ und $c=0.95$ aus.
+c) Erstellen Sie einen Plot von beiden Funktionen $g_1$ und $g_2$ für $a \in [0,1]$, $b=0.7$ und $c=0.95$. 
+
+# Vektoren und Matrizen
+
+a) Erzeugen Sie einen Vektor *A* mit den Quadratzahlen 1, 4, 9, ..., 400 als Einträgen. 
+b) Bilden Sie zwei Vektoren *B* und *C* aus den ersten bzw. letzten zehn Einträngen von *A*. Erzeugen Sie daraus einen Vektor *D* mit 50 Einträgen, in dem zunächst einmal die Elemente von *A*, zweimal die von *C* und einmal die von *B* auftreten.
+c) Erzeugen Sie aus dem Vektor *D* die 10x5 Matrix *M*. 
+
+# Schleifen
+
+Erstellen Sie eine Schleife in einer Schleife!
+
+a) Erstellen Sie einen Vektor **iters** für Anzahl der Iterationen, beginnend bei 10, endend bei 100, und in 10er Schritten. 
+b) Erstellen Sie einen Outputvektor **times**, in dem die Zeit eingetragen werden soll. 
+c) Definieren Sie die erste *for*-Schleife von 1 bis zur Länge von **iters**, die
+    + sich die Anzahl der gewünschten Iterationen aus **iters** zieht
+    + die Zeitmessung startet (x=Sys.time())
+    + pro Iteration eine normalverteilte Zufallsvariable mit n=10000 Ziehungen erstellt (dummy=rnorm(1e5), zweite Schleife) und die Summary davon bestimmt (dummy2<-summary(dummy), entspricht Min., Max., Quantile)
+    + die Zeit in der Variablen **times** abspeichert 
+d) Plotten Sie **iters** gegen **times**!
+    
+# Dateneingabe
+
+a) Laden Sie den Datensatz *iris*. 
+b) Ändern Sie die Klasse von *data.frame* zu *data.table*.
+c) Wie viele Einträge sind pro Spezies vorhanden? 
+d) Wie lang und breit sind im Mittel die Blätter pro Spezie? Nutzen Sie dazu die Funktion *lapply()*.
+e) Definieren Sie eine neue Spalte als Produkt der Kelchblattlänge und -breite. 
+f) Wie groß ist die mittlere Differenz der Blattlänge (Kelch - Blüte) in der Spezies *setosa*?
+
+# Session Information
+
+```{r sessionInfo, echo=T, eval=F}
+sessionInfo()
+message("\nTOTAL TIME : " ,round(difftime(Sys.time(),time0,units = "mins"),3)," minutes")
+
+```
+
