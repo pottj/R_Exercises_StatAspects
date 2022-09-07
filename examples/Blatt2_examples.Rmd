@@ -1,0 +1,157 @@
+---
+title: "R-Blatt 2: Deskriptive Statistik - Beispiele"
+subtitle: "Statistical Aspects (09-202-2413)"
+author: "Janne Pott"
+date: "Last compiled on `r format(Sys.time(), '%d %B, %Y')`"
+output: pdf_document
+---
+
+# Session Setup
+
+```{r setup, echo=T, warning=FALSE, message=FALSE}
+rm(list = ls())
+time0<-Sys.time()
+
+source("../sourceFile.R")
+setwd(pathToExample)
+
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Datensatz 1 (ergometer)
+
+In dem ersten Teil der Übung beschäftigen wir uns mit deskriptiven Statistiken. Dazu wird der Datensatz *ergometer.RData* verwendet. Dabei handelt es sich um eine R-spezifische Datei, die schneller in R einlesbar ist und alle R-spezifische Informationen in den Daten (z. B. Attribute, Variablentypen usw.) mitspeichert. Das beinhaltet auch die Variablennamen. Wurde als der Datensatz *myTab* mittels *save(myTab,file="test.RData")* gespeichert, wird wieder die Variable *myTab* erzeugt. Wenn diese schon besteht, wird sie einfach überschrieben! Man kann sich aber den oder die Variablennamen mitangeben lassen.
+
+```{r B2A1_1, echo=F}
+loaded1<-load(paste0(pathToData,"ergometer.RData"))
+loaded1
+class(myDat)
+var<-colnames(myDat)
+dummy1<-c("Durchlaufende ID-Nummer","Geschlecht","Geburtstag","Erhebungsdatum",
+         "Größe","Gewicht","Leistung im Ergometer","Milchsäure im Blut")
+dummy2<-c(NA,"1 = Mann; 2 = Frau","Monat/Tag/Jahr","Monat/Tag/Jahr",
+          "in m","in kg","in Watt/kg","in mg/dl")
+dumTab<-data.frame(var,dummy1,dummy2)
+knitr::kable(dumTab, position = "!b",
+             caption = "Parameterbeschreibung zum Datensatz ergometer",
+             col.names = c("Variable","Beschreibung","Codierung / Einheit"))
+
+```
+
+In diesem Beispiel heißt der Datensatz also *myDat*. Um Verwechslungen zu verweiden, kann man diesen auch umbenennen: 
+
+```{r B2A1_2}
+myDat2<-myDat
+myDat3<-copy(myDat)
+myDat4<-get(loaded1)
+```
+
+Der Befehl *copy* ist vor allem in der **data.table** Syntax wichtig, da sonst nicht eine vollständige Kopie angelegt wird (sonst würden sich Änderungen in *myDat2* auch auf *myDat* auswirken).
+
+Mit *get* kann man einfach den Variablenname des Objekts angeben, der gesucht und dann einem neuen Namen zugeordnet werden soll. Das ist z.B. bei Schleifen hilfreich, wenn pro Schleife ein RData-Objekt geladen wird, aber die einzelnen Objekte anderes heißen (und man auch nicht weiß wie).
+
+Oft muss man Datensätze noch etwas anpassen, bevor man sie auswerten kann. Wenn das Datum zum  Beispiel nicht als solches erkannt wird, kann man das Alter nicht direkt ausrechen. Ich nutze hier die Funktion *mdy()* aus dem Paket **lubridate**, um das Alter zu transformieren, das im Format Monat-Tag-Jahr angegeben ist. Trennzeichen werden hier automatisch erkannt. 
+
+```{r B2A1_3}
+head(myDat)
+class(myDat$Bday)
+date1<-mdy(myDat$Bday)
+date2<-mdy(myDat$Tday)
+class(date1)
+
+head(difftime(date2, date1, unit="weeks"))
+head(difftime(date2, date1, unit="weeks")/52.25)
+round(head(difftime(date2, date1, unit="weeks")/52.25),2)
+class(round(head(difftime(date2, date1, unit="weeks")/52.25),2))
+
+setDT(myDat)
+myDat[,alter:=as.numeric(round(difftime(date2, date1, unit="weeks")/52.25,2))]
+```
+
+Die Deskription umfasst unter anderem das Minimum, Maximum, Mittelwert und die Quartile. Zusätzlich werden Standardabweichung oder Varianz mitangegeben. Man kann rein optisch auf Normalverteilung prüfen (QQ-Plot, Histogramm), oder mittels Kolmogorov-Smirnov Test auf eine signifikante Abweichung davon testen. Ist dieser signifikant, sollte man parameterfreie Test für weitere Analysen verwenden. Der Mann-Whitney U Test liefert beim Geschlechtsvergleich ein signifikantes Ergebnis, d.h. das Altersmittel der Männer ist in diesem Datensatz signikant höher als das in Frauen. 
+
+```{r B2A1_4}
+myDat[,summary(alter)]
+myDat[,sd(alter)]
+myDat[,var(alter)]
+
+par(mfrow = c(1,2)) # zwei Plots nebeneinander
+qqnorm(myDat[,alter],main = "Alter"); qqline(myDat[,alter], col = 2)
+hist(myDat[,alter],breaks = 10,main = "Alter")
+ks.test(myDat[,alter],pnorm,mean=mean(myDat[,alter]),sd=sd(myDat[,alter]))
+wilcox.test(myDat[,alter] ~ myDat[,sex])
+boxplot(myDat[,alter] ~ myDat[,sex], 
+        xlab="Geschlecht",ylab="Alter")
+```
+
+# Datensatz 2 (haendigkeit)
+
+In dem zweiten Teil der Übung beschäftigen wir uns mit gepaarten Tests. Dazu wird der Datensatz *haendigkeit.RData* verwendet. Bitte laden Sie diesen Datensatz mittels *load()* ein. 
+
+```{r B2A2_1, echo=F}
+loaded2<-load(paste0(pathToData,"haendigkeit.RData"))
+loaded2
+var<-colnames(myDat)
+dummy1<-c("Durchlaufende ID-Nummer","Geschlecht","Länge der Schreibhand",
+          "Länge der Nichtschreibhand","Schreibhand",
+          "Präferenz für Armverschränkung","Präferenz für Klatschen","Größe")
+dummy2<-c(NA,"1 = Mann; 2 = Frau","in cm","in cm",
+          "0 = rechts; 1 = links",
+          "0 = rechts auf links; 0.5 = keine; 1 = links auf rechts",
+          "0 = rechts; 0.5 = keine; 1 = links",
+          "in m")
+dumTab<-data.frame(var,dummy1,dummy2)
+knitr::kable(dumTab, position = "!b",
+             caption = "Parameterbeschreibung zum Datensatz haendigkeit",
+             col.names = c("Variable","Beschreibung","Codierung / Einheit"))
+setDT(myDat)
+```
+
+Manchmal sind die Daten unvollständig oder enthalten Ausreißer. Je nach Anteil kann man diese vollständig filtern, oder nur für einzelne Tests. 
+
+Fehlende Werte sind in der Regel durch *NA* gekennzeichnet. Mittels *apply* kann man sich die Anzahl der *NA* pro Spalte angeben lassen. Für dieses Beispiel filtere ich die einzelnen *NA*s, aber belasse die *NA*s der Spalte *height*. 
+
+Wenn man die Differenz der Handlängen betrachtet, erwartet man ähnliche Größen (1-2 cm). Größere Abweichungen sind unplausibel (z.B. durch falsche Dateneingabe) und/oder könnten die Analyse verzerren, und sollten daher gefiltert werden. Dazu kann man entweder den Plot nutzen und den "offensichtlichen" Ausreißer filtern, oder man legt eine Grenze fest, zum Beispiel eine Abweichung von mehr als $4*SD$ vom Mittelwert.
+
+```{r B2A2_2}
+apply(myDat, MARGIN = 2, function(x) sum(is.na(x)))
+filt<-!is.na(myDat$sex) & !is.na(myDat$WrHnd) & !is.na(myDat$NWHnd) & 
+    !is.na(myDat$WHnd) & !is.na(myDat$Clap) 
+table(filt)
+myDat<-myDat[filt,]
+apply(myDat, MARGIN = 2, function(x) sum(is.na(x)))
+
+myDat[,dif:=WrHnd-NWHnd]
+filt<-myDat$dif>mean(myDat$dif,na.rm = T) + 4*sd(myDat$dif,na.rm = T) 
+myDat[filt,]
+plot(myDat$id, myDat$dif, main="Handlängendifferenz", 
+     xlab = "ID", ylab="Differenz",pch=16,cex.main=1.5,cex.lab=1.5)
+points(myDat$id[filt],myDat$dif[filt],col="red",pch=16)
+abline(h=mean(myDat$dif,na.rm = T) + 4*sd(myDat$dif,na.rm = T),lwd=2,col="red",lty=2)
+myDat2<-myDat[!filt,]
+attach(myDat2)
+```
+
+Um binäre Variablen zu beschreiben, eignet sich die absolute bzw. relative Häufigkeit der verwendeten Kategorien. Um zwei Variablen zu vergleichen, benutzt man Kontingenztafel. Es gibt zwei Tests auf Unabhängigkeit:
+
+* Chi-Quadrat-Test (stochastische Unabhängigkeit zweier Merkmale)
+* Exakter Test nach Fisher (keine Voraussetzungen an den Stichprobenumfang, robuster)
+
+```{r B2A2_3}
+myDat2[,.N,by = .(sex)]
+myDat2[,.N,by = .(WHnd)]
+myDat2[,.N,by = .(sex,WHnd)]
+myDat2[,table(sex,WHnd)]
+fisher.test(sex,WHnd) 
+chisq.test(sex,WHnd)
+
+```
+
+# Session Information
+
+```{r sessionInfo, echo=T, eval=F}
+sessionInfo()
+message("\nTOTAL TIME : " ,round(difftime(Sys.time(),time0,units = "mins"),3)," minutes")
+
+```
+
