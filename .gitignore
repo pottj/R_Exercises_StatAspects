@@ -41,4 +41,5 @@ vignettes/*.pdf
 # other stuff
 sourceFile.R
 solutions/*
-
+unsorted/*
+examples/*
