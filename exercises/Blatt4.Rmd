@@ -1,9 +1,16 @@
 ---
-title: "R-Blatt  4: Visualisierung statistischer Konzepte"
+title: "R-Blatt  4: Visualisierung statistischer Konzepte - Lösungen"
 subtitle: "Statistical Aspects (09-202-2413)"
 author: "Janne Pott"
 date: "Last compiled on `r format(Sys.time(), '%d %B, %Y')`"
-output: pdf_document
+output: 
+  bookdown::pdf_document2: 
+    fig_caption: true
+    number_sections: false
+    toc: false
+lang: de
+linkcolor: blue
+citecolor: blue
 ---
 
 # Session Setup
@@ -22,11 +29,11 @@ knitr::opts_chunk$set(echo = TRUE)
 
 Bitte laden Sie das Objekt *verwandtschaft.RData* mittels *load()*. Das R-Objekt enthält zwei Datensätze: *genotypes*, eine Genotyp-Matrix von 10 Personen mit 30,000 SNPs, und *allelfreq*, ein Vektor der Allelfrequenzen pro SNP aus *genotypes* bezüglich Allel B. 
 
-a) Die Verwandtschaftsmatrix kann man mittels Matrix-Operation bestimmen. Definieren Sie dazu eine Hilfsmatrix *h*, die auf die Allelfrequenzen und Anzahl der SNPs adjustiert ist, und bilden Sie das Matrixprodukt $H=h^T * h$. 
+a) Die Verwandtschaftsmatrix *K* kann man mittels Matrix-Operation bestimmen. Definieren Sie dazu eine Hilfsmatrix *h*, die auf die Allelfrequenzen und Anzahl der SNPs adjustiert ist, und bilden Sie das Matrixprodukt $K=h^T * h$. 
 
 $$ h_{m,i} = \frac{(g_{m,i}-2*p_{m,B})}{\sqrt{M*4*p_{m,B}*p_{m,A}}} $$
 
-b) Warum gilt: $$ \hat H_{i,i} \approx 0.5$$
+b) Warum gilt: $$ \hat K_{i,i} \approx 0.5$$
 c) Wie viele paarweise Verwandtschaften (von Grad 1,2, … , unverwandt) beobachten Sie?
 d) Welche Familienstruktur könnte die beobachteten Verwandtschaftsbeziehungen erklären?
 
@@ -55,7 +62,7 @@ Als erstes soll der Pfad zu PLINK definiert werden. Als kleiner Test wird Plink 
 
 * Falls 127 zurückggeben wird, hat R die Plink .exe nicht gefunden - bitte Pfad prüfen!
 
-```{r B4A3_1, eval=T,echo=T}
+```{r B4A3-1, eval=T,echo=T}
 plink_call<-pathToPLINK2
 
 # test if plink can start
@@ -63,15 +70,15 @@ system(plink_call)
 
 ```
 
-### Datenvorbereitung - SNPs filtern
-Überprüfen Sie in R, ob alle SNPs von *mySNPs.txt* in 1KG sind. Hierfür sollte man am besten das *1KG_PCA.bim* File verwenden (tab-delimited). Recherchieren Sie, was in den einzelnen Spalten des .bim Files steht. Nutzen sie zum Einlesen der Befehl *fread()* aus dem Paket *data.table*. Filtern Sie nach den SNPs in der Schnittmenge und erstellen Sie ein gefiltertes Text-File mySNPs_filtered.txt!
+## Datenvorbereitung - SNPs filtern
+Überprüfen Sie in R, ob alle SNPs von *mySNPs.txt* in 1KG sind. Hierfür sollte man am besten das *1KG_PCA.pvar* File verwenden (tab-delimited). Nutzen sie zum Einlesen der Befehl *fread()* aus dem Paket *data.table*. Filtern Sie nach den SNPs in der Schnittmenge und erstellen Sie ein gefiltertes Text-File mySNPs_filtered.txt!
 
-**Hinweis**: Es sollten am Ende 206,233 SNPs sein!
+**Hinweis**: Es sollten am Ende 16,132 SNPs sein!
 
-```{r B4A3_2, eval=T,echo=T}
+```{r B4A3-2, eval=T,echo=T}
 myTab<-read.table(paste0(pathToData,"mySnps.txt"))
 dim(myTab)
-rslist<-fread(paste0(pathToData,"1KG_PCA.bim"),sep="\t",stringsAsFactors=F)
+rslist<-fread(paste0(pathToData,"1KG_PCA.pvar"),sep="\t",stringsAsFactors=F)
 dim(rslist)
 head(rslist)
 
@@ -79,13 +86,13 @@ head(rslist)
 
 ```
 
-### Datenvorbereitung - Samples filtern
-Erstellen Sie eine Sample Liste mit Individuen aus Asien, Afrika und Europa! Nutzen Sie hierfür das **1KG_PCA.fam** File (space-delimited). Wir wollen eine möglichst große Menge an Samples, aber jeder Herkunft sollte gleich oft vorhanden sein! Ziehen Sie zufällig aus der jeweiligen Teilmenge und speichern Sie ihre Liste als **mySamples.txt** ab!
+## Datenvorbereitung - Samples filtern
+Erstellen Sie eine Sample Liste mit Individuen aus Asien, Afrika und Europa! Nutzen Sie hierfür das **1KG_PCA.psam** File (space-delimited). Wir wollen eine möglichst große Menge an Samples, aber jeder Herkunft sollte gleich oft vorhanden sein! Ziehen Sie zufällig aus der jeweiligen Teilmenge und speichern Sie ihre Liste als **mySamples.txt** ab!
 
 **Hinweis**: Es sollten am Ende 3*246 Individuen sein!
 
-```{r B4A3_3, eval=T,echo=T}
-fam.data<-read.table(paste0(pathToData,"1KG_PCA.fam"),stringsAsFactors=F,sep=" ")
+```{r B4A3-3, eval=T,echo=T}
+fam.data<-read.table(paste0(pathToData,"1KG_PCA.psam"),stringsAsFactors=F,sep="\t")
 dim(fam.data)
 head(fam.data)
 ethno<-substr(fam.data$V2,1,3)
@@ -96,7 +103,7 @@ table(ethno)
 
 ```
 
-### Datenvorbereitung - SNPs prunen
+## Datenvorbereitung - SNPs prunen
 Jetzt prunen Sie die SNPs mit PLINK, d.h. Sie prüfen, welche SNPs in hohem LD miteinander sind. Folgende Parameter sollten Sie setzen:
 a.	Input:--bfile 1KG_PCA
 b.	SNPs einschränken: --extract mySNPs_filtered.txt
@@ -106,42 +113,42 @@ e.	Output: --out pruned_filter
 
 Was bedeuten die drei Zahlen hinter dem --indep-pairwise Befehl?
 
-**Hinweis**: Es sollten am Ende 117,351 SNPs sein. 
+**Hinweis**: Es sollten am Ende 9371 SNPs sein. 
 
-```{r B4A3_4, eval=F,echo=T}
-call1<-paste(plink_call,
-             "--bfile ",pathToData,"/1KG_PCA",
-             "--extract ",pathToData,"/mySnps_filtered.txt",
-             "--keep ",pathToData,"/mySamples.txt",
-             "--indep-pairwise 50 5 0.2",
-             "--out ",pathToData,"/pruning_filter")
+```{r B4A3-4, eval=F,echo=T}
+call1<-paste0(plink_call,
+             " --pfile ",pathToData,"/1KG_PCA",
+             " --extract ",pathToData,"/mySnps_filtered.txt",
+             " --keep ",pathToData,"/mySamples.txt",
+             " --indep-pairwise 50 5 0.2",
+             " --out ",pathToData,"/pruning_filter")
 system(call1)
 ```
 
 
-### Datenvorbereitung - Datensatz erstellen
+## Datenvorbereitung - Datensatz erstellen
 Erstellen Sie jetzt mit PLINK ein neues .bed-File, dass nur noch die geprunten SNPs und die gewünschten Samples (aus 2) enthält (--bfile, --extract, --keep, und --make-bed). 
 
-```{r B4A3_5, eval=F,echo=T}
-call2<-paste(plink_call,
-             "--bfile ",pathToData,"1KG_PCA",
-             "--extract ",pathToData,"pruning_filter.prune.in",
-             "--keep ",pathToData,"mySamples.txt",
-             "--make-bed --out ",pathToData,"pruned_data")
+```{r B4A3-5, eval=F,echo=T}
+call2<-paste0(plink_call,
+             " --pfile ",pathToData,"1KG_PCA",
+             " --extract ",pathToData,"pruning_filter.prune.in",
+             " --keep ",pathToData,"mySamples.txt",
+             " --make-bed --out ",pathToData,"pruned_data")
 system(call2)
 ```
 
-### PCA berechnen
+## PCA berechnen
 Jetzt kann mit den neuen Files die PCA ausgerechnet werden (--bfile, --pca, --out):
 
-```{r B4A3_6, eval=F,echo=T}
-call3<-paste(plink_call,
-             "--bfile ",pathToData,"pruned_data",
-             "--pca --out ",pathToData,"pca_out")
+```{r B4A3-6, eval=F,echo=T}
+call3<-paste0(plink_call,
+             " --bfile ",pathToData,"pruned_data",
+             " --pca --out ",pathToData,"pca_out")
 system(call3)
 ```
 
-### PCA auswerten
+## PCA auswerten
 Laden Sie beide Outputs der PCA in R ein! Wie sind die Daten aufgebaut?
 
 Erstellen Sie einen Plot der ersten beiden Vektoren mit Ethnien-Färbung! Was kann man daraus schließen?
@@ -152,10 +159,19 @@ Berechnen Sie den Anteil der erklärten Varianz
 
 Was würden Sie erwarten, wenn alle 4 Ethnien in die Analyse eingeflossen wären? Wo würden Sie die Amerikaner einordnen? Rechnen Sie das nach!
 
-```{r B4A3_7, eval=F,echo=T}
+```{r B4A3-7, eval=F,echo=T,fig.cap="Plot der ersten beiden Hauptkomponenten in dreier Ethnien von 1000Genomes (EUR, Europäer; AFR, Afrikaner; ASN, Asiaten). Nur unabhängige SNPs mit paarweisen LD r²<0.2 auf Chromosom 1 wurden berücksichtigt",fig.align = 'center',out.width='75%'}
 pca2values<-read.table(paste0(pathToData,"pca_out.eigenval"))$V1
-pca2vector<-read.table(paste0(pathToData,"PCA/pca_out.eigenvec"),stringsAsFactors=F,sep="\t")
+pca2vector<-read.table(paste0(pathToData,"pca_out.eigenvec"),stringsAsFactors=F,sep="\t")
 
-# to continue ...
+# to do: estimate explained variance by the first two PCs and plot by ethnicities
 
 ```
+
+# Session Information
+
+```{r sessionInfo}
+sessionInfo()
+message("\nTOTAL TIME : " ,round(difftime(Sys.time(),time0,units = "mins"),3)," minutes")
+
+```
+
