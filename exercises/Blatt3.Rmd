@@ -1,0 +1,85 @@
+---
+title: "R-Blatt 3: Regressionsmodelle in R"
+subtitle: "Statistical Aspects (09-202-2413)"
+author: "Janne Pott"
+date: "Last compiled on `r format(Sys.time(), '%d %B, %Y')`"
+output: pdf_document
+---
+
+# Session Setup
+
+```{r setup, echo=T, warning=FALSE, message=FALSE}
+rm(list = ls())
+time0<-Sys.time()
+
+source("../sourceFile.R")
+setwd(pathToExercise)
+
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Lineare Regression 
+
+Bitte laden Sie den Datensatz *SNP.RData* mittels *load()*. 
+
+```{r B2A1_1, echo=F}
+loaded1<-load(paste0(pathToData,"SNP.RData"))
+var<-colnames(myDat)
+dummy1<-c("Durchlaufende ID-Nummer","Merkmal/Phänotyp"	,"Geschlecht","Genotyp")
+dummy2<-c(NA,"kontinuierlich","1 = Mann; 2 = Frau","0 = AA; 1 = AB; 2 = BB")
+dumTab<-data.frame(var,dummy1,dummy2)
+knitr::kable(dumTab, position = "!b",
+             caption = "Parameterbeschreibung zu Aufgabe 1 & 2 (Blatt 3)",
+             col.names = c("Variable","Beschreibung","Codierung / Einheit"))
+
+```
+
+
+a) Untersuchen Sie die Effekte von *sex* und *SNP* auf *trait* mittels linearer Regression!
+b) Untersuchen Sie die multiplen Effekte und die Interaktion der Einflussvariablen *sex* und *SNP*!
+c) Welche von den vier Modellen ist besser geeignet, um *trait* zu beschreiben? Begründen Sie Ihre Entscheidung!
+d) Welches genetische Modell wird hier verwendet?
+e) Erstellen Sie je einen Wahrscheinlichkeits-Vektor pro Genotyp **AA**, **AB** und **BB** (1 = dieser Genotyp trifft zu, 0 = trifft nicht zu).
+f) Erstellen Sie nun je einen Vektor pro genetischen Modell (additiv, dominant, rezessiv). (Hinweis: Überlegen Sie zuerst, welchen der Vektoren Sie bereits haben (Teilaufgabe d))
+g) Untersuchen Sie die Effekte der verschiedenen Modelle auf *trait* mittels lineare Regression (univariat)! Welches Modell ist am besten geeignet? Wie könnten Sie Ihr Ergebnis testen?
+h) Können wir annehmen, dass der SNP auf den Autosomen liegt, oder könnte es sich auch um einen X-chromosomalen SNP handeln? Begründen Sie Ihre Antwort. 
+
+# Logistische / Proportional Odds Regression
+
+Bitte laden Sie den Datensatz *SNP.RData* mittels *load()*. 
+
+a) Berechnen Sie den **Median** von *trait* und nutzen Sie diesen als Cut-off, um *trait* in einen binären Phänotyp *trait2* zu zerlegen. 
+b) Untersuchen Sie die univariaten und multivariaten Effekte von *sex* und *SNP* auf *trait2* mittels logistischer Regression! (Hinweis: Funktion *glm()* mit *family="binomial"*)
+c) Bestimmen Sie die **Quartile** von *trait*! Zerlegen Sie *trait* nun in einen 4-stufigen Phänotypen *trait3*, in dem Sie die Quartile als Kategorien nutzen. 
+d) Untersuchen Sie die univariaten und multivariaten Effekte von *sex* und *SNP* auf *trait3* mittels proportional odds regression! (Hinweis: Funktion *polr()* aus dem Paket **MASS** mit *Hess=T*)
+e) Vergleichen Sie Ihre Ergebnisse von b) und d) mit den Ergebnissen von Aufgabe 1
+
+# Nichtlineare Regression
+
+Bitte laden Sie den Datensatz *MichMenten.RData* mittels *load()*. 
+
+```{r B3A3_1,eval=T,echo=F,warning=F}
+loaded2<-load(paste0(pathToData,"MichMenten.RData"))
+var<-colnames(myDat)
+dummy1<-c("Substratkonzentration"	,
+          "Umsatzgeschwindigkeit, gemessen in Erwachsenen",
+          "Umsatzgeschwindigkeit, gemessen in Embryonen")
+dummy2<-c("in 10^-5 mol", "in mikromol/(mg Enzym)*min","in mikromol/(mg Enzym)*min")
+dumTab<-data.frame(var,dummy1,dummy2)
+knitr::kable(dumTab, position = "!b", escape = T,
+             caption = "Parameterbeschreibung zu Aufgabe 3 (Blatt 3)",
+             col.names = c("Variable","Beschreibung","Codierung / Einheit"))
+```
+
+a) Bestimmen Sie $V_{max}$ und $K_m$ für Erwachsene und Embryonen getrennt, indem Sie die Funktion *nls()* und folgende Startwerte nutzen: $V_{max}=max(v)$ und $K_m=\frac12 max(v)$
+b) Was passiert wenn man die Startwerte weglässt?
+c) Fassen Sie die Ergebnisse in einem Plot zusammen und interpretieren Sie diesen!
+
+# Session Information
+
+```{r sessionInfo, echo=T, eval=F}
+sessionInfo()
+message("\nTOTAL TIME : " ,round(difftime(Sys.time(),time0,units = "mins"),3)," minutes")
+
+```
+
