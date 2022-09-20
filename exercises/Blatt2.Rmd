@@ -3,7 +3,14 @@ title: "R-Blatt 2: Deskriptive Statistik - Aufgaben"
 subtitle: "Statistical Aspects (09-202-2413)"
 author: "Janne Pott"
 date: "Last compiled on `r format(Sys.time(), '%d %B, %Y')`"
-output: pdf_document
+output: 
+  bookdown::pdf_document2: 
+    fig_caption: true
+    number_sections: false
+    toc: false
+lang: de
+linkcolor: blue
+citecolor: blue
 ---
 
 # Session Setup
@@ -20,9 +27,9 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Datensatz 1 (ergometer)
 
-Bitte laden Sie den Datensatz *ergometer.RData* mittels *load()*. 
+Bitte laden Sie den Datensatz *ergometer.RData* mittels *load()*. Die Beschreibung der Variablen finden Sie in Tabellen \@ref(tab:B2A1-1).
 
-```{r B2A1_1, echo=F}
+```{r B2A1-1, echo=F}
 loaded1<-load(paste0(pathToData,"ergometer.RData"))
 var<-colnames(myDat)
 dummy1<-c("Durchlaufende ID-Nummer","Geschlecht","Geburtstag","Erhebungsdatum",
@@ -43,9 +50,9 @@ d) Korrelieren Sie *ergometer* mit *lactate*, *BMI* und *Alter*. Was fällt hier
 
 # Datensatz 2 (haendigkeit)
 
-Bitte laden Sie den Datensatz *haendigkeit.RData* mittels *load()*. 
+Bitte laden Sie den Datensatz *haendigkeit.RData* mittels *load()*. Die Beschreibung der Variablen finden Sie in Tabellen \@ref(tab:B2A2-1).
 
-```{r B2A2_1, echo=F}
+```{r B2A2-1, echo=F}
 loaded2<-load(paste0(pathToData,"haendigkeit.RData"))
 var<-colnames(myDat)
 dummy1<-c("Durchlaufende ID-Nummer","Geschlecht","Länge der Schreibhand",
@@ -57,7 +64,7 @@ dummy2<-c(NA,"1 = Mann; 2 = Frau","in cm","in cm",
           "0 = rechts; 0.5 = keine; 1 = links",
           "in m")
 dumTab<-data.frame(var,dummy1,dummy2)
-knitr::kable(dumTab, position = "!b",
+knitr::kable(dumTab, position = "!h",
              caption = "Parameterbeschreibung zum Datensatz haendigkeit",
              col.names = c("Variable","Beschreibung","Codierung / Einheit"))
 ```

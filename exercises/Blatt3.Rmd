@@ -1,9 +1,16 @@
 ---
-title: "R-Blatt 3: Regressionsmodelle in R"
+title: "R-Blatt 3: Regressionsmodelle in R - Aufgaben"
 subtitle: "Statistical Aspects (09-202-2413)"
 author: "Janne Pott"
 date: "Last compiled on `r format(Sys.time(), '%d %B, %Y')`"
-output: pdf_document
+output: 
+  bookdown::pdf_document2: 
+    fig_caption: true
+    number_sections: false
+    toc: false
+lang: de
+linkcolor: blue
+citecolor: blue
 ---
 
 # Session Setup
@@ -20,16 +27,16 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Lineare Regression 
 
-Bitte laden Sie den Datensatz *SNP.RData* mittels *load()*. 
+Bitte laden Sie den Datensatz *SNP.RData* mittels *load()*. Die Beschreibung der Variablen finden Sie in Tabellen \@ref(tab:B3A1-1).
 
-```{r B2A1_1, echo=F}
+```{r B3A1-1, echo=F}
 loaded1<-load(paste0(pathToData,"SNP.RData"))
 var<-colnames(myDat)
 dummy1<-c("Durchlaufende ID-Nummer","Merkmal/Phänotyp"	,"Geschlecht","Genotyp")
 dummy2<-c(NA,"kontinuierlich","1 = Mann; 2 = Frau","0 = AA; 1 = AB; 2 = BB")
 dumTab<-data.frame(var,dummy1,dummy2)
-knitr::kable(dumTab, position = "!b",
-             caption = "Parameterbeschreibung zu Aufgabe 1 & 2 (Blatt 3)",
+knitr::kable(dumTab, position = "!h",
+             caption = "Parameterbeschreibung zum Datensatz SNP",
              col.names = c("Variable","Beschreibung","Codierung / Einheit"))
 
 ```
@@ -46,7 +53,7 @@ h) Können wir annehmen, dass der SNP auf den Autosomen liegt, oder könnte es s
 
 # Logistische / Proportional Odds Regression
 
-Bitte laden Sie den Datensatz *SNP.RData* mittels *load()*. 
+Bitte verwenden Sie den Datensatz *SNP.RData* aus der obigen Aufgabe. 
 
 a) Berechnen Sie den **Median** von *trait* und nutzen Sie diesen als Cut-off, um *trait* in einen binären Phänotyp *trait2* zu zerlegen. 
 b) Untersuchen Sie die univariaten und multivariaten Effekte von *sex* und *SNP* auf *trait2* mittels logistischer Regression! (Hinweis: Funktion *glm()* mit *family="binomial"*)
@@ -56,9 +63,9 @@ e) Vergleichen Sie Ihre Ergebnisse von b) und d) mit den Ergebnissen von Aufgabe
 
 # Nichtlineare Regression
 
-Bitte laden Sie den Datensatz *MichMenten.RData* mittels *load()*. 
+Bitte laden Sie den Datensatz *MichMenten.RData* mittels *load()*. Die Beschreibung der Variablen finden Sie in Tabellen \@ref(tab:B3A3-1).
 
-```{r B3A3_1,eval=T,echo=F,warning=F}
+```{r B3A3-1,eval=T,echo=F,warning=F}
 loaded2<-load(paste0(pathToData,"MichMenten.RData"))
 var<-colnames(myDat)
 dummy1<-c("Substratkonzentration"	,
@@ -66,8 +73,8 @@ dummy1<-c("Substratkonzentration"	,
           "Umsatzgeschwindigkeit, gemessen in Embryonen")
 dummy2<-c("in 10^-5 mol", "in mikromol/(mg Enzym)*min","in mikromol/(mg Enzym)*min")
 dumTab<-data.frame(var,dummy1,dummy2)
-knitr::kable(dumTab, position = "!b", escape = T,
-             caption = "Parameterbeschreibung zu Aufgabe 3 (Blatt 3)",
+knitr::kable(dumTab, position = "!h", escape = T,
+             caption = "Parameterbeschreibung zum Datensatz MichMenten",
              col.names = c("Variable","Beschreibung","Codierung / Einheit"))
 ```
 

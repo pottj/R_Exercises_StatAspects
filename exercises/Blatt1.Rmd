@@ -3,7 +3,14 @@ title: "R-Blatt 1: Grundlagen - Aufgaben"
 subtitle: "Statistical Aspects (09-202-2413)"
 author: "Janne Pott"
 date: "Last compiled on `r format(Sys.time(), '%d %B, %Y')`"
-output: pdf_document
+output: 
+  bookdown::pdf_document2: 
+    fig_caption: true
+    number_sections: false
+    toc: false
+lang: de
+linkcolor: blue
+citecolor: blue
 ---
 
 # Session Setup

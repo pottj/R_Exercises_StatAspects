@@ -1,5 +1,5 @@
 ---
-title: "R-Blatt  4: Visualisierung statistischer Konzepte - Lösungen"
+title: "R-Blatt  4: Visualisierung statistischer Konzepte - Aufgaben"
 subtitle: "Statistical Aspects (09-202-2413)"
 author: "Janne Pott"
 date: "Last compiled on `r format(Sys.time(), '%d %B, %Y')`"
@@ -169,7 +169,7 @@ pca2vector<-read.table(paste0(pathToData,"pca_out.eigenvec"),stringsAsFactors=F,
 
 # Session Information
 
-```{r sessionInfo}
+```{r sessionInfo, echo=T, eval=F}
 sessionInfo()
 message("\nTOTAL TIME : " ,round(difftime(Sys.time(),time0,units = "mins"),3)," minutes")
 
