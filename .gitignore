@@ -44,4 +44,6 @@ solutions/*
 unsorted/*
 examples/*
 figures/*
-data/1KG_PCA.log
+data/*
+!data/Blatt*
+!data/Beispiel*
