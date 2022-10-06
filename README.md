@@ -14,11 +14,13 @@ R Exercises for the module "Statistical Aspects of the Analysis of Molecular Bio
 6) Bitte prüfen Sie ihren Code, indem Sie einen geeigenten Output erstellen: entweder das Markdown knitern oder konvertieren, oder bei R klassisch ein .out Datei erzeugen.
 7) Feedback zu Ihren Lösungen erhalten Sie über die Kommentar Funktion des github classrooms. Sie können auch gerne Teillösungen oder Fragen über ihr eigenes Repository stellen. 
 8) Die Teilnahme ist freiwillig. Allerdings hilft es dem Verständnis sehr, wenn man Analysen oder Plots einmal selbst durchgeführt bzw. erstellt hat. In der Klausur werden Sie Ergebnisse und Plots interpretieren müssen.
+9) Andere Aufgaben aus der Übung, z.B. Hardy-Weinberg-Gleichgewicht oder multiples Testen, können ebenfalls mit R oder PLINK gelöst werden. Sie sind lediglich nicht Teil der hier gestellten Aufgaben. 
 
 ## Weitere Links
 
 * [Cheat sheets](https://www.rstudio.com/resources/cheatsheets/)
 * [Bioconductor](https://www.bioconductor.org/) 
+* [PLINK2](https://www.cog-genomics.org/plink/2.0/)
 
 ## Inhalt
 
