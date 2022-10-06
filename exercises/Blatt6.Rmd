@@ -28,7 +28,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Ratio-Methode
 
-Bitte laden Sie den Datensatz *MR.RData* mittels *load()*. Er enthält Daten von 1000 Personen und 4 SNPs *g1* - *g4*, einem Risikofaktor *x* und zwei Outcomes *y* (kontinuierlich) und *y.bin* (binär). Die beiden kontiunierlichen Größen sind annähernd normalverteilt. Die SNPs sind klassisch codiert, d.h. Genotyp AA entspricht 0, AB 1 und BB 2.
+Bitte laden Sie den Datensatz *Blatt6_MR.RData* mittels *load()*. Er enthält Daten von 1000 Personen und 4 SNPs *g1* - *g4*, einem Risikofaktor *x* und zwei Outcomes *y* (kontinuierlich) und *y.bin* (binär). Die beiden kontiunierlichen Größen sind annähernd normalverteilt. Die SNPs sind klassisch codiert, d.h. Genotyp AA entspricht 0, AB 1 und BB 2.
 
 a) Bestimmen sie folgende Parameter für alle SNPs *g1* - *g4*:
     * Die Schätzer aus den jeweiligen linearen Regressionen: $\hat{\beta}_Y$, $se(\hat{\beta}_Y)$, $\hat{\beta}_X$, $se(\hat{\beta}_X)$

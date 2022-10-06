@@ -27,9 +27,9 @@ knitr::opts_chunk$set(echo = TRUE)
 
 In dieser Aufgabe sollen mehrere GWAS zu einem Phänotyp auf dem gleichen Datensatz durchgeführt werden. 
 
-* Datensatz: *1KG_PCA* (bekannt aus R-Blatt 4 - PCA)
-* Phänotyp: *Phenotype* in Datei *PhenoFile.txt*
-* Kovariablen: *sex* und *age* in Datei *CovarFile.txt* und die 10 PCs aus R-Blatt 4
+* Datensatz: *Blatt4_1KG_PCA* (bekannt aus R-Blatt 4 - PCA)
+* Phänotyp: *Phenotype* in Datei *Blatt5_PhenoFile.txt*
+* Kovariablen: *sex* und *age* in Datei *Blatt5_CovarFile.txt* und die 10 PCs aus R-Blatt 4
 
 # Voranalyse
 
@@ -54,12 +54,12 @@ b) Führen Sie die GWAS für alle 4 Modelle durch. [PLINK2](https://www.cog-geno
 
 ```{r B5A2-1, eval=F}
 myCall1 = paste0(pathToPLINK2, 
-                 " --pfile ",pathToData,"1KG_PCA",
+                 " --pfile ",pathToData,"Blatt4_1KG_PCA",
                  " --glm allow-no-covars hide-covar firth-fallback",
                  " cols=chrom,pos,ref,alt,firth,test,nobs,machr2,a1freq,",
                  "a1freqcc,a1countcc,orbeta,se,ci,tz,p",
-                 " --pheno ",pathToData,"PhenoFile.txt", 
-                 " --covar ",pathToData,"CovarFile.txt",
+                 " --pheno ",pathToData,"Blatt5_PhenoFile.txt", 
+                 " --covar ",pathToData,"Blatt5_CovarFile.txt",
                  " --covar-variance-standardize",
                  " --out ",pathToData,"Model1")
 system(myCall1)

@@ -27,10 +27,10 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Datensatz 1 (ergometer)
 
-Bitte laden Sie den Datensatz *ergometer.RData* mittels *load()*. Die Beschreibung der Variablen finden Sie in Tabellen \@ref(tab:B2A1-1).
+Bitte laden Sie den Datensatz *Blatt2_ergometer.RData* mittels *load()*. Die Beschreibung der Variablen finden Sie in Tabellen \@ref(tab:B2A1-1).
 
 ```{r B2A1-1, echo=F}
-loaded1<-load(paste0(pathToData,"ergometer.RData"))
+loaded1<-load(paste0(pathToData,"Blatt2_ergometer.RData"))
 var<-colnames(myDat)
 dummy1<-c("Durchlaufende ID-Nummer","Geschlecht","Geburtstag","Erhebungsdatum",
          "Größe","Gewicht","Leistung im Ergometer","Milchsäure im Blut")
@@ -50,10 +50,10 @@ d) Korrelieren Sie *ergometer* mit *lactate*, *BMI* und *Alter*. Was fällt hier
 
 # Datensatz 2 (haendigkeit)
 
-Bitte laden Sie den Datensatz *haendigkeit.RData* mittels *load()*. Die Beschreibung der Variablen finden Sie in Tabellen \@ref(tab:B2A2-1).
+Bitte laden Sie den Datensatz *Blatt2_haendigkeit.RData* mittels *load()*. Die Beschreibung der Variablen finden Sie in Tabellen \@ref(tab:B2A2-1).
 
 ```{r B2A2-1, echo=F}
-loaded2<-load(paste0(pathToData,"haendigkeit.RData"))
+loaded2<-load(paste0(pathToData,"Blatt2_haendigkeit.RData"))
 var<-colnames(myDat)
 dummy1<-c("Durchlaufende ID-Nummer","Geschlecht","Länge der Schreibhand",
           "Länge der Nichtschreibhand","Schreibhand",
