@@ -25,6 +25,27 @@ setwd(pathToExercise)
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+![Vergleich RCT vs. MR](../figures/Blatt6_MR1.jpg){width=50%}
+
+Das Ziel einer MR ist die Beschreibung von einem kausalen Effekt von einem Risikofaktor *X* auf ein Outcome bzw. Krankheit *Y*. Man kann statt Medikament vs Placebo auch Risiko-Allel vs anderes Allel vergleichen ("Randomisierung während Meiose"). Dazu müssen drei Bedingungen gelten:
+  
+1) Die Assoziation der genetischen Variante *G* auf *X* ist **stark**, z.B. genomweit signifikant. 
+2) Der SNP *G* ist unabhängig von **allen** Confoundern *U*, d.h. *G* ist nicht auch mit diesen assoziiert. 
+3) Der SNP *G* ist unabhängig von *Y*, bis auf den Effekt der durch *X* vermittelt wird, d.h. es gibt keinen direkten Effekt von *G* auf *Y*. 
+
+Während man die erste Bedingung gut nachweisen kann, kann man die anderen beiden nur plausibilisieren (man kennt nicht alle Confounder; man kann nur für die testen, zu denen man Daten hat). Wenn die Bedingungen (plausibel) erfüllt sind, kann man mittels folgenden Model einen Ratio-Schätzer ableiten ($\beta_{IV}$, durch die Genetik erklärte Effekt von *X* auf *Y*, *IV*= instrumenal variable): 
+  
+\begin{align}
+Y \sim \beta_{IV} \cdot X &= \beta_{IV} \cdot (\beta_X \cdot G) = \beta_Y \cdot G \notag \\
+\Longrightarrow \hat{\beta}_{IV} &= \frac{\hat{\beta}_Y}{\hat{\beta}_X} \notag
+\end{align}
+
+Den Standardfehler kann mittels der Delta-Methode bestimmen. Üblicherweise schneidet man nach dem ersten oder zweiten Term ($SE_1$ bzw. $SE_2$) ab: 
+  
+\begin{align}
+SE_1(\hat{\beta}_{IV}) &= se(\hat{\beta}_Y) / \hat{\beta}_X \notag \\
+SE_2(\hat{\beta}_{IV}) &= \sqrt{\frac{se(\hat{\beta}_Y)^2}{\hat{\beta}_X^2} + \frac{\hat{\beta}_Y^2se(\hat{\beta}_X)^2}{\hat{\beta}_X^4}} \notag
+\end{align}
 
 # Ratio-Methode
 
