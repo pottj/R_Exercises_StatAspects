@@ -45,6 +45,5 @@ unsorted/*
 examples/*
 figures/*
 data/*
-data/Blatt4_1KG_PCA.log
 !data/Blatt*
 !data/Beispiel*
