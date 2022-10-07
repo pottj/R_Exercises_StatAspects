@@ -21,6 +21,8 @@ R Exercises for the module "Statistical Aspects of the Analysis of Molecular Bio
 * [Cheat sheets](https://www.rstudio.com/resources/cheatsheets/)
 * [Bioconductor](https://www.bioconductor.org/) 
 * [PLINK2](https://www.cog-genomics.org/plink/2.0/)
+* [Happy Git and GitHub for R Tutorial](https://happygitwithr.com/index.html)
+* [Introduction to Data Exploration and Analysis with R](https://bookdown.org/mikemahoney218/IDEAR/)
 
 ## Inhalt
 
